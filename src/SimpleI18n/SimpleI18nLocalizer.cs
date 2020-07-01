@@ -109,7 +109,7 @@ namespace SimpleI18n
                 LocaleFilesPath = configuration["SimpleI18n:LocaleFilesPath"] ?? 
                     Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LocaleFiles");
             
-                var cultureName = configuration["SimpleI18n:LocaleFilesPath"] ?? "en-Us";
+                var cultureName = configuration["SimpleI18n:DefaultCultureName"] ?? "en-Us";
             }
             catch(Exception e)
             {
