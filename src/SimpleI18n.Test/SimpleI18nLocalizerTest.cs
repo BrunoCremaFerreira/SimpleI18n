@@ -9,21 +9,25 @@ namespace SimpleI18n.Test
 {
     public class SimpleI18nLocalizerTest
     {
-        [Fact]
-        public void BestCaseScenario()
+        [Theory]
+        [InlineData("en-US", "Fork", "Fork")]
+        [InlineData("pt-BR", "Fork", "Garfo")]
+        [InlineData("fr-FR", "Fork", "Fourchette")]
+        public void TranslationTermWithoutParams(string cultureName, string key, string expectedTranslation)
         {
             //Mocking a configuration file
             var config = new ConfigurationTestModel
             (
                 localeFilesPath: 
                     Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LocaleFiles"),
-                defaultCultureName: new CultureInfo("en-US").Name
+                defaultCultureName: cultureName
             );
 
+            //Localizer service
             var localizer = new SimpleI18nStringLocalizer(config);
-            var translate = localizer["Example"];
-            var translate2 = localizer["Example", 2];
-            
+
+            var translationTerm = localizer[key].Value;
+            Assert.True(string.Equals(expectedTranslation, translationTerm));
         }
     }
 }

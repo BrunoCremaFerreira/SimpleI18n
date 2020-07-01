@@ -72,19 +72,20 @@ namespace SimpleI18n
         private LocalizedString GetTranslation(string keyName, params object[] arguments)
         {
             var hasTranslation = ResourceContent.TryGetValue(keyName, out var jToken) 
-                                    && jToken.HasValues;
+                                    && jToken.Value<string>() != null;
             
             //If the translation key was not found
             if (!hasTranslation)
                 return new LocalizedString(keyName, string.Empty, true, LocaleFileName);
 
-            var canBePluralForm = IsNumericType(arguments.FirstOrDefault());
-            var translationsForKey = jToken.Values();
-
             //Plural form translation
-            if (translationsForKey.Count() > 1 && canBePluralForm)
+            if (jToken.HasValues)
             {
-                var pluralQuantity = Math.Abs(double.Parse(arguments.First().ToString()));
+                var canBePluralForm = IsNumericType(arguments.FirstOrDefault());
+                var pluralQuantity = canBePluralForm 
+                                        ? Math.Abs(double.Parse(arguments.First().ToString())) 
+                                        : 1;
+                                        
                 dynamic dynToken = jToken;
                 string val = pluralQuantity == 0 
                                 ? dynToken.Zero
@@ -94,7 +95,7 @@ namespace SimpleI18n
             }
             
             //Single translation
-            var value = translationsForKey.FirstOrDefault()?.Value<string>() ?? string.Empty;
+            var value = jToken.Value<string>() ?? string.Empty;
             return new LocalizedString(
                         keyName, string.Format(value, arguments), string.IsNullOrWhiteSpace(value));
         }
