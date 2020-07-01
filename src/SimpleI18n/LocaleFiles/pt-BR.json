@@ -1,0 +1,18 @@
+{
+    "Fork": "Garfo",
+    "{0} example": 
+    {
+        "Zero": "nenhum exemplo",
+        "One": "{0} exemplo",
+        "Other": "{0} exemplos"
+    },
+    "Animal": 
+    {
+        "Zero": "Animal",
+        "One": "Animal",
+        "Other": "Animais"
+    },
+    "{0} is beautiful": "O {0} é bonito",
+    "{0} is beautiful {f}": "A {0} é bonita",
+    "My Name is {0} and i live in {1}": "Meu nome é {0} e moro em {1}"
+}

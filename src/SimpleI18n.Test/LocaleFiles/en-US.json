@@ -1,0 +1,18 @@
+{
+    "Fork": "Fork",
+    "{0} example": 
+    {
+        "Zero": "{0} example",
+        "One": "{0} example",
+        "Other": "{0} examples"
+    },
+    "Animal": 
+    {
+        "Zero": "Animal",
+        "One": "Animal",
+        "Other": "Animals"
+    },
+    "{0} is beautiful": "{0} is beautiful",
+    "{0} is beautiful {f}": "{0} is beautiful",
+    "My Name is {0} and i live in {1}": "My Name is {0} and i live in {1}"
+}

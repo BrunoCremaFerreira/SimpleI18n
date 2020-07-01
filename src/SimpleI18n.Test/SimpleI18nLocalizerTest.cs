@@ -17,10 +17,12 @@ namespace SimpleI18n.Test
             (
                 localeFilesPath: 
                     Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LocaleFiles"),
-                defaultCultureName: new CultureInfo("en-Us").Name
+                defaultCultureName: new CultureInfo("en-US").Name
             );
 
             var localizer = new SimpleI18nStringLocalizer(config);
+            var translate = localizer["Example"];
+            var translate2 = localizer["Example", 2];
             
         }
     }

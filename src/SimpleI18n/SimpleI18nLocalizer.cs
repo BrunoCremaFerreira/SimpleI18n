@@ -84,7 +84,7 @@ namespace SimpleI18n
             //Plural form translation
             if (translationsForKey.Count() > 1 && canBePluralForm)
             {
-                var pluralQuantity = Math.Abs((double)arguments.First());
+                var pluralQuantity = Math.Abs(double.Parse(arguments.First().ToString()));
                 dynamic dynToken = jToken;
                 string val = pluralQuantity == 0 
                                 ? dynToken.Zero
@@ -109,7 +109,8 @@ namespace SimpleI18n
                 LocaleFilesPath = configuration["SimpleI18n:LocaleFilesPath"] ?? 
                     Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LocaleFiles");
             
-                var cultureName = configuration["SimpleI18n:DefaultCultureName"] ?? "en-Us";
+                var cultureName = configuration["SimpleI18n:DefaultCultureName"] ?? "en-US";
+                Culture = new CultureInfo(cultureName);
             }
             catch(Exception e)
             {
@@ -143,6 +144,9 @@ namespace SimpleI18n
 
         private bool IsNumericType(object obj)
         {   
+            if(obj == null)
+                return false;
+
             switch (Type.GetTypeCode(obj.GetType()))
             {
                 case TypeCode.UInt16:

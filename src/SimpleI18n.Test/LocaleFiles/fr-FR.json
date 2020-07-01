@@ -1,0 +1,18 @@
+{
+    "Fork": "Fourchette",
+    "{0} example": 
+    {
+        "Zero": "pas d'exemple",
+        "One": "{0} exemple",
+        "Other": "{0} exemples"
+    },
+    "Animal": 
+    {
+        "Zero": "Animal",
+        "One": "Animal",
+        "Other": "Animaux"
+    },
+    "{0} is beautiful": "Le {0} est beau.",
+    "{0} is beautiful {f}": "La {0} est belle.",
+    "My Name is {0} and i live in {1}": "Je m'appelle {0} et j'habite en {1}"
+}
