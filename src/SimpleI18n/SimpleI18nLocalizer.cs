@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using Microsoft.Extensions.Localization;
@@ -28,35 +29,36 @@ namespace SimpleI18n
         ///</summary>
         private CultureInfo Culture;
 
+        private JObject ResourceContent;
+
+        private string LocaleFileName => Path.Combine(LocaleFilesPath, $"{Culture.Name}.json");
+
         #region :: Constructors
 
         public SimpleI18nStringLocalizer(IConfiguration configuration)
         {
             _configuration = configuration;
             LoadConfiguration(_configuration);
+            LoadLocaleFile();
         }
 
         public SimpleI18nStringLocalizer(IConfiguration configuration, CultureInfo culture)
             :this(configuration)
         {
             Culture = culture;
+            LoadLocaleFile();
         }
 
         #endregion
         
-        public LocalizedString this[string name]
-        {
-            get { return new LocalizedString(name, string.Empty); }
-        }
+        public LocalizedString this[string name] => GetTranslation(name);
 
-        public LocalizedString this[string name, params object[] arguments]
-        {
-            get { return new LocalizedString(name, string.Empty); }
-        }
+        public LocalizedString this[string name, params object[] arguments] => GetTranslation(name, arguments);
 
         public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
         {
-            return new List<LocalizedString>();
+            return ResourceContent.Values().
+                Select(i=> new LocalizedString(i.Type.ToString(), i.Value<string>()));
         }
 
         ///<summary>
@@ -65,6 +67,36 @@ namespace SimpleI18n
         public IStringLocalizer WithCulture(CultureInfo culture)
         {
             return new SimpleI18nStringLocalizer(_configuration, culture);
+        }
+
+        private LocalizedString GetTranslation(string keyName, params object[] arguments)
+        {
+            var hasTranslation = ResourceContent.TryGetValue(keyName, out var jToken) 
+                                    && jToken.HasValues;
+            
+            //If the translation key was not found
+            if (!hasTranslation)
+                return new LocalizedString(keyName, string.Empty, true, LocaleFileName);
+
+            var canBePluralForm = IsNumericType(arguments.FirstOrDefault());
+            var translationsForKey = jToken.Values();
+
+            //Plural form translation
+            if (translationsForKey.Count() > 1 && canBePluralForm)
+            {
+                var pluralQuantity = Math.Abs((double)arguments.First());
+                dynamic dynToken = jToken;
+                string val = pluralQuantity == 0 
+                                ? dynToken.Zero
+                                : (pluralQuantity == 1 ? dynToken.One : dynToken.Other);
+                return new LocalizedString(
+                        keyName, string.Format(val, arguments), string.IsNullOrWhiteSpace(val));
+            }
+            
+            //Single translation
+            var value = translationsForKey.FirstOrDefault()?.Value<string>() ?? string.Empty;
+            return new LocalizedString(
+                        keyName, string.Format(value, arguments), string.IsNullOrWhiteSpace(value));
         }
 
         ///<summary>
@@ -89,24 +121,45 @@ namespace SimpleI18n
         ///<summary>
         /// Reads the JSON translation file resource and loads it into memory
         ///</summary>
-        private void LoadLocaleFile(string fileName)
+        private void LoadLocaleFile()
         {
             try
             {
-                var fileContent = File.ReadAllText(fileName);
+                var fileContent = File.ReadAllText(LocaleFileName);
 
                 if (string.IsNullOrWhiteSpace(fileContent))
                     return;
 
-                var jSonContent = JObject.Parse(fileContent);
+                ResourceContent = JObject.Parse(fileContent);
                 
             }
             catch(Exception e)
 
             {
-                throw new Exception($"Error to load Localizer content from '{fileName}'.", e);
+                throw new Exception($"Error to load Localizer content from '{LocaleFileName}'.", e);
             }
 
+        }
+
+        private bool IsNumericType(object obj)
+        {   
+            switch (Type.GetTypeCode(obj.GetType()))
+            {
+                case TypeCode.UInt16:
+                case TypeCode.UInt32:
+                case TypeCode.UInt64:
+                case TypeCode.Int16:
+                case TypeCode.Int32:
+                case TypeCode.Int64:
+                case TypeCode.Decimal:
+                case TypeCode.Double:
+                case TypeCode.Byte:
+                case TypeCode.SByte:
+                case TypeCode.Single:
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
 }
