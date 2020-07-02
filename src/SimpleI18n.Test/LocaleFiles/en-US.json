@@ -14,5 +14,7 @@
     },
     "{0} is beautiful": "{0} is beautiful",
     "{0} is beautiful {f}": "{0} is beautiful",
-    "My Name is {0} and i live in {1}": "My Name is {0} and i live in {1}"
+    "My Name is {0} and i live in {1}": "My Name is {0} and i live in {1}",
+    "My Name is {0} and i live in {1}{f}": "My Name is {0} and i live in {1}",
+    "Belgium": "Belgium"
 }

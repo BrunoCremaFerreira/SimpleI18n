@@ -14,5 +14,7 @@
     },
     "{0} is beautiful": "O {0} é bonito",
     "{0} is beautiful {f}": "A {0} é bonita",
-    "My Name is {0} and i live in {1}": "Meu nome é {0} e moro em {1}"
+    "My Name is {0} and i live in {1}": "Meu nome é {0} e moro em {1}",
+    "My Name is {0} and i live in {1}{f}": "Meu nome é {0} e moro na {1}",
+    "Belgium": "Bélgica"
 }
