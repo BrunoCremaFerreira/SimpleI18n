@@ -8,8 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Localization;
-using SimpleI18n;
+using SimpleI18n.DependencyInjection;
 
 namespace Sample
 {
@@ -26,8 +25,7 @@ namespace Sample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.Add(ServiceDescriptor.
-                Singleton<IStringLocalizer, SimpleI18nStringLocalizer>());
+            services.AddSimpleI18n();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
