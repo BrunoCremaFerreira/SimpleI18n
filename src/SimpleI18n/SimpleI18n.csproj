@@ -2,6 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp5.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+
+    <PackageId>simple-i18n</PackageId>
+    <Version>1.0.0</Version>
+    <Description>It's a small library to provide .Net Core I18n translations from JSON files.</Description>
+    <Authors>Bruno Crema Ferreira</Authors>
+    <PackageProjectUrl>https://github.com/BrunoCremaFerreira/SimpleI18n</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/BrunoCremaFerreira/SimpleI18n</RepositoryUrl>
+    <PackageTags></PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    
   </PropertyGroup>
 
   <ItemGroup>
