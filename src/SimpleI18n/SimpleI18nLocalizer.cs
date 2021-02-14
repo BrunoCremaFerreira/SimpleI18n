@@ -31,7 +31,8 @@ namespace SimpleI18n
 
         private JObject ResourceContent;
 
-        private string LocaleFileName => Path.Combine(LocaleFilesPath, $"{Culture.Name}.json");
+        private string LocaleFileName 
+            => Path.Combine(LocaleFilesPath, $"{Culture.Name}.json");
 
         #region :: Constructors
 
@@ -51,24 +52,22 @@ namespace SimpleI18n
 
         #endregion
         
-        public LocalizedString this[string name] => GetTranslation(name);
+        public LocalizedString this[string name] 
+            => GetTranslation(name);
 
-        public LocalizedString this[string name, params object[] arguments] => GetTranslation(name, arguments);
+        public LocalizedString this[string name, params object[] arguments] 
+            => GetTranslation(name, arguments);
 
         public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
-        {
-            return ResourceContent.Values().
+            => ResourceContent.Values().
                 Select(i=> new LocalizedString(i.Type.ToString(), i.Value<string>()));
-        }
-
+        
         ///<summary>
         /// Creates a new String Translation Service with a new culture
         ///</summary>
         public IStringLocalizer WithCulture(CultureInfo culture)
-        {
-            return new SimpleI18nStringLocalizer(_configuration, culture);
-        }
-
+            => new SimpleI18nStringLocalizer(_configuration, culture);
+        
         private LocalizedString GetTranslation(string keyName, params object[] arguments)
         {
             var hasTranslation = ResourceContent.TryGetValue(keyName, out var jToken) 
