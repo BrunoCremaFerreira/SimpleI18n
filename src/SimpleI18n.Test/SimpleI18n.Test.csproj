@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-    <None Update="LocaleFiles\en-Us.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="LocaleFiles\en-US.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="LocaleFiles\pt-BR.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="LocaleFiles\fr-FR.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
