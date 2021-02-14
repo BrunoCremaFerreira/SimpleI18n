@@ -25,6 +25,7 @@ jobs:
       working-directory: ./src/SimpleI18n
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      working-directory: ./src/SimpleI18n.Test
     - name: Publish
       uses: brandedoutcast/publish-nuget@v2.5.2
       with:
