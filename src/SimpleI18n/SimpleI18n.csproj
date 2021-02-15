@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 
-    <PackageId>simple-i18n</PackageId>
+    <PackageId>Simplei18n</PackageId>
     <Version>1.0.1</Version>
     <Description>It's a small library to provide .Net Core I18n translations from JSON files.</Description>
     <Authors>Bruno Crema Ferreira</Authors>
