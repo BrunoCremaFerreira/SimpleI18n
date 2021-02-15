@@ -9,11 +9,12 @@ namespace SimpleI18n.Test.TestModel
     {
         private IDictionary<string, string> InternalConfig;
 
-        public ConfigurationTestModel(string localeFilesPath, string defaultCultureName)
+        public ConfigurationTestModel(string localeFilesPath, string defaultCultureName, bool useCurrentThreadCulture)
         {
             InternalConfig = new Dictionary<string, string>();
             InternalConfig.Add("SimpleI18n:LocaleFilesPath", localeFilesPath);
             InternalConfig.Add("SimpleI18n:DefaultCultureName", defaultCultureName);
+            InternalConfig.Add("SimpleI18n:UseCurrentThreadCulture", useCurrentThreadCulture.ToString());
         }
 
         public string this[string key] 

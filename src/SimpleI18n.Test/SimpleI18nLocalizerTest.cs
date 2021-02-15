@@ -19,7 +19,7 @@ namespace SimpleI18n.Test
         public void TranslationTermWithoutParams(string cultureName, string key, string expectedTranslation)
         {
             //Mocking a configuration file
-            var config = GetMockConfiguration(cultureName);
+            var config = GetMockConfiguration(cultureName, false);
 
             //Localizer service
             var localizer = new SimpleI18nStringLocalizer(config);
@@ -39,7 +39,7 @@ namespace SimpleI18n.Test
         public void TranslationTermPluralForm(string cultureName, string key, string expectedTranslation, int quantityParam)
         {
             //Mocking a configuration file
-            var config = GetMockConfiguration(cultureName);
+            var config = GetMockConfiguration(cultureName, false);
 
             //Localizer service
             var localizer = new SimpleI18nStringLocalizer(config);
@@ -64,7 +64,7 @@ namespace SimpleI18n.Test
         public void TranslationTermWithParams(string cultureName, string key, string expectedTranslation, params object[] translationParams)
         {
             //Mocking a configuration file
-            var config = GetMockConfiguration(cultureName);
+            var config = GetMockConfiguration(cultureName, false);
 
             //Localizer service
             var localizer = new SimpleI18nStringLocalizer(config);
@@ -80,7 +80,7 @@ namespace SimpleI18n.Test
         [Fact]
         public void TranslationTermNotFound()
         {
-            var config = GetMockConfiguration("fr-FR");
+            var config = GetMockConfiguration("fr-FR", false);
             var localizer = new SimpleI18nStringLocalizer(config);
             var localizedString = localizer["Hat"];
             Assert.True(localizedString.ResourceNotFound);
@@ -91,7 +91,7 @@ namespace SimpleI18n.Test
         public void ForceInvalidCulture()
         {
             var pass = false;
-            var config = GetMockConfiguration("bxx-XX");
+            var config = GetMockConfiguration("bxx-XX", false);
             try
             {
                 new SimpleI18nStringLocalizer(config);
@@ -106,13 +106,14 @@ namespace SimpleI18n.Test
         ///<summary>
         /// Mock a configuration file
         ///</summary>
-        private IConfiguration GetMockConfiguration(string cultureName)
+        private IConfiguration GetMockConfiguration(string cultureName, bool useCurrentThreadCulture)
         {
             return new ConfigurationTestModel
             (
                 localeFilesPath: 
                     Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LocaleFiles"),
-                defaultCultureName: cultureName
+                defaultCultureName: cultureName,
+                useCurrentThreadCulture
             );
         }
     }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using System.Threading;
 
 namespace SimpleI18n
 {
@@ -27,7 +28,20 @@ namespace SimpleI18n
         ///<summary>
         /// Culture to which it will be translated.
         ///</summary>
-        private CultureInfo Culture;
+        private CultureInfo _culture;
+
+        ///<summary>
+        /// Current Culture to which it will be translated.
+        ///</summary>
+        public CultureInfo Culture
+            => UseCurrentThreadCulture
+                ? Thread.CurrentThread.CurrentUICulture ?? Thread.CurrentThread.CurrentCulture
+                : _culture;
+
+        ///<summary>
+        /// Use current Thread culture
+        ///</summary>
+        public bool UseCurrentThreadCulture { get; private set; } = true;
 
         private JObject ResourceContent;
 
@@ -46,7 +60,7 @@ namespace SimpleI18n
         public SimpleI18nStringLocalizer(IConfiguration configuration, CultureInfo culture)
             :this(configuration)
         {
-            Culture = culture;
+            _culture = culture;
             LoadLocaleFile();
         }
 
@@ -110,7 +124,10 @@ namespace SimpleI18n
                     Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LocaleFiles");
             
                 var cultureName = configuration["SimpleI18n:DefaultCultureName"] ?? "en-US";
-                Culture = new CultureInfo(cultureName);
+                _culture = new CultureInfo(cultureName);
+
+                if(bool.TryParse(configuration["SimpleI18n:UseCurrentThreadCulture"], out var useCurrentThreadCulture))
+                    UseCurrentThreadCulture = useCurrentThreadCulture;
             }
             catch(Exception e)
             {
