@@ -1,3 +1,6 @@
 {
-    "Welcome": "Welcome"
+    "Welcome": "Welcome",
+    "Welcome {0}": "Welcome {0}",
+    "Welcome {0}{f}": "Welcome {0}",
+    "Mary": "Mary"
 }

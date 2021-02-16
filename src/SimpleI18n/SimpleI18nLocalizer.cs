@@ -15,6 +15,7 @@ namespace SimpleI18n
     ///</summary>
     public sealed class SimpleI18nStringLocalizer : IStringLocalizer
     {
+        private const string GENDER_MARK = "[f]";
         ///<summary>
         /// System configuration
         ///</summary>
@@ -84,6 +85,15 @@ namespace SimpleI18n
         
         private LocalizedString GetTranslation(string keyName, params object[] arguments)
         {
+            //Autoset gender if translation ends with "[f]"
+            var hasLocalizedGenderF = arguments.Any(e=> e is LocalizedString && e.ToString().EndsWith(GENDER_MARK));
+            if(hasLocalizedGenderF)
+            {
+                var kyHasF = keyName.EndsWith("{f}");
+                var args = RemoveGenderMarkOfArguments(arguments);
+                return GetTranslation(kyHasF ? keyName : $"{keyName}{{f}}", args);
+            }
+
             var hasTranslation = ResourceContent.TryGetValue(keyName, out var jToken) 
                                     && (jToken.HasValues || jToken.Value<string>() != null);
             
@@ -181,6 +191,24 @@ namespace SimpleI18n
                 default:
                     return false;
             }
+        }
+
+        private object[] RemoveGenderMarkOfArguments(object[] attributes)
+        {
+            return attributes
+                .Select(e=> (e is LocalizedString) 
+                    ? e.ToString()
+                    : e)
+                .ToArray();
+
+        }
+
+        public override string ToString()
+        {
+            var str = base.ToString();
+            return str.EndsWith(GENDER_MARK)
+                ? str.Replace(GENDER_MARK, string.Empty)
+                : str;
         }
     }
 }

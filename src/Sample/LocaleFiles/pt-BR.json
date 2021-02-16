@@ -1,3 +1,6 @@
 {
-    "Welcome" : "Bem-vindo"
+    "Welcome" : "Bem-vindo",
+    "Welcome {0}": "Bem-vindo {0}",
+    "Welcome {0}{f}": "Bem-vinda {0}",
+    "Mary": "Maria[f]"
 }

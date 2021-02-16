@@ -57,7 +57,7 @@ namespace SimpleI18n.Test
         )]
         [InlineData(
             "pt-BR", 
-            "My Name is {0} and i live in {1}{f}", 
+            "My Name is {0} and i live in {1}", 
             "Meu nome é Bruno e moro na Bélgica",
             "Bruno", "/=Belgium"
         )]
