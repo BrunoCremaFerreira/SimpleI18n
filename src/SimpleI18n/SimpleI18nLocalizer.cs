@@ -197,7 +197,7 @@ namespace SimpleI18n
         {
             return attributes
                 .Select(e=> (e is LocalizedString) 
-                    ? e.ToString()
+                    ? RemoveGenderMark(e.ToString())
                     : e)
                 .ToArray();
 
@@ -206,9 +206,12 @@ namespace SimpleI18n
         public override string ToString()
         {
             var str = base.ToString();
-            return str.EndsWith(GENDER_MARK)
-                ? str.Replace(GENDER_MARK, string.Empty)
-                : str;
+            return RemoveGenderMark(str);
         }
+
+        private string RemoveGenderMark(string source)
+            => source.EndsWith(GENDER_MARK)
+                ? source.Replace(GENDER_MARK, string.Empty)
+                : source;
     }
 }
