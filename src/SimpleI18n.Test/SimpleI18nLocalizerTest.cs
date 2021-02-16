@@ -71,7 +71,7 @@ namespace SimpleI18n.Test
 
             translationParams = translationParams.
                 Select(e => e.ToString().StartsWith("/=") 
-                    ? localizer[e.ToString().Replace("/=", "")] : e.ToString()).ToArray();
+                    ? localizer[e.ToString().Replace("/=", "")] : e).ToArray();
             
             var translationTerm = localizer[key, translationParams];
             Assert.True(string.Equals(expectedTranslation, translationTerm));
