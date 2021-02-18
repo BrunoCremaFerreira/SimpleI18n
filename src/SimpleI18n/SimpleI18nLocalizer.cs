@@ -136,7 +136,7 @@ namespace SimpleI18n
                 //If the path of the local files is not found, 
                 //try to resolve it by changing the Path AltDirectorySeparatorChar
                 if(!Directory.Exists(LocaleFilesPath))
-                    LocaleFilesPath = LocaleFileName
+                    LocaleFilesPath = LocaleFilesPath
                         .Replace('/', Path.AltDirectorySeparatorChar)
                         .Replace('\\', Path.AltDirectorySeparatorChar);
             
