@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 
     <PackageId>Simplei18n</PackageId>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Description>It's a small library to provide .Net Core I18n translations from JSON files.</Description>
     <Authors>Bruno Crema Ferreira</Authors>
     <PackageProjectUrl>https://github.com/BrunoCremaFerreira/SimpleI18n</PackageProjectUrl>
