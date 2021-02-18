@@ -132,6 +132,13 @@ namespace SimpleI18n
             {
                 LocaleFilesPath = configuration["SimpleI18n:LocaleFilesPath"] ?? 
                     Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LocaleFiles");
+
+                //If the path of the local files is not found, 
+                //try to resolve it by changing the Path AltDirectorySeparatorChar
+                if(!Directory.Exists(LocaleFilesPath))
+                    LocaleFilesPath = LocaleFileName
+                        .Replace('/', Path.AltDirectorySeparatorChar)
+                        .Replace('\\', Path.AltDirectorySeparatorChar);
             
                 var cultureName = configuration["SimpleI18n:DefaultCultureName"] ?? "en-US";
                 _culture = new CultureInfo(cultureName);
