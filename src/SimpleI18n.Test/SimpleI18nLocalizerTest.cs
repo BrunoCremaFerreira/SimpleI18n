@@ -6,11 +6,21 @@ using System.IO;
 using System.Linq;
 using System.Globalization;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
+using Microsoft.Extensions.Localization;
 
 namespace SimpleI18n.Test
 {
     public class SimpleI18nLocalizerTest
     {
+        private readonly IStringLocalizer _localizer;
+
+        public SimpleI18nLocalizerTest()
+        {
+            var config = GetMockConfiguration("en-US", true);
+            _localizer = new SimpleI18nStringLocalizer(config);
+        }
+
         //Use Command "export VSTEST_HOST_DEBUG=1" to debug this test on VsCode
         [Theory]
         [InlineData("en-US", "Fork", "Fork")]
@@ -94,13 +104,27 @@ namespace SimpleI18n.Test
             var config = GetMockConfiguration("bxx-XX", false);
             try
             {
-                new SimpleI18nStringLocalizer(config);
+                var localizer = new SimpleI18nStringLocalizer(config);
+                var forkTranslation = localizer["Fork"];
             }
             catch(Exception e)
             {
                 pass = e.Message.StartsWith("Error to load Localizer content");
             }
             Assert.True(pass);
+        }
+
+        [Theory]
+        [InlineData("en-US", "Fork", "Fork")]
+        [InlineData("pt-BR", "Fork", "Garfo")]
+        [InlineData("fr-FR", "Fork", "Fourchette")]
+        public void TranslationsByCurrentThreadCulture(string cultureName, string key, string expectedTranslation)
+        {
+            //Setting Thread Culture
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName);
+
+            var translationTerm = _localizer[key].Value;
+            Assert.True(string.Equals(expectedTranslation, translationTerm));
         }
 
         ///<summary>

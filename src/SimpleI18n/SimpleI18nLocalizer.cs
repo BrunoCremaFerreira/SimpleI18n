@@ -13,23 +13,38 @@ namespace SimpleI18n
     ///<summary>
     /// String Translator Service
     ///</summary>
-    public sealed class SimpleI18nStringLocalizer : IStringLocalizer
+    public class SimpleI18nStringLocalizer : IStringLocalizer
     {
         private const string GENDER_MARK = "[f]";
+
         ///<summary>
         /// System configuration
         ///</summary>
         private readonly IConfiguration _configuration;
 
+        private readonly IDictionary<string, JObject> InMemoryResources = new Dictionary<string, JObject>();
+
+        
+        private JObject ResourceContent
+        {
+            get
+            {
+                if(!InMemoryResources.Any(e=> e.Key == Culture.Name))
+                    LoadLocaleFile();
+                
+                return InMemoryResources[Culture.Name];
+            }
+        }
+
         ///<summary>
         /// Translation JSON Files
         ///</summary>
-        private string LocaleFilesPath;
+        protected string LocaleFilesPath;
 
         ///<summary>
         /// Culture to which it will be translated.
         ///</summary>
-        private CultureInfo _culture;
+        protected CultureInfo _culture;
 
         ///<summary>
         /// Current Culture to which it will be translated.
@@ -44,9 +59,7 @@ namespace SimpleI18n
         ///</summary>
         public bool UseCurrentThreadCulture { get; private set; } = true;
 
-        private JObject ResourceContent;
-
-        private string LocaleFileName 
+        protected string LocaleFileName 
             => Path.Combine(LocaleFilesPath, $"{Culture.Name}.json");
 
         #region :: Constructors
@@ -55,18 +68,18 @@ namespace SimpleI18n
         {
             _configuration = configuration;
             LoadConfiguration(_configuration);
-            LoadLocaleFile();
         }
 
         public SimpleI18nStringLocalizer(IConfiguration configuration, CultureInfo culture)
             :this(configuration)
         {
             _culture = culture;
-            LoadLocaleFile();
         }
 
         #endregion
         
+        #region :: IStringLocalizer Implementations
+
         public LocalizedString this[string name] 
             => GetTranslation(name);
 
@@ -77,12 +90,14 @@ namespace SimpleI18n
             => ResourceContent.Values().
                 Select(i=> new LocalizedString(i.Type.ToString(), i.Value<string>()));
         
+        #endregion
+
         ///<summary>
         /// Creates a new String Translation Service with a new culture
         ///</summary>
         public IStringLocalizer WithCulture(CultureInfo culture)
             => new SimpleI18nStringLocalizer(_configuration, culture);
-        
+
         private LocalizedString GetTranslation(string keyName, params object[] arguments)
         {
             //Autoset gender if translation ends with "[f]"
@@ -165,8 +180,8 @@ namespace SimpleI18n
                 if (string.IsNullOrWhiteSpace(fileContent))
                     return;
 
-                ResourceContent = JObject.Parse(fileContent);
-                
+                InMemoryResources.Add(Culture.Name, JObject.Parse(fileContent));
+
             }
             catch(Exception e)
 
