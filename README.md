@@ -135,6 +135,7 @@ fr-FR.json
     "Welcome {0}": "Bienvenu {0}",
     "Welcome {0}{f}": "Bienvenue {0}",
     "Mary": "Marie[f]",
+    "Fork": "Fourchette",
     "{0} example": 
     {
         "Zero": "pas d'exemple",
