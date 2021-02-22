@@ -75,7 +75,9 @@ In your startup.cs code, just add the extension method AddSimpleI18n() as below:
     }
 ```
 
-## Translation Files Example
+## Usage
+
+### Translation Files Example:
 
 en-US.json
 
@@ -108,6 +110,56 @@ fr-FR.json
     "Welcome {0}{f}": "Bienvenue {0}",
     "Mary": "Marie[f]"
 }
+
+```
+
+### Usage from IStringLocalizer Interface:
+
+The Simple I18n implements the Microsoft.Extensions.Localization.IStringLocalizer interface. You can use this by injection:
+
+```
+using Microsoft.Extensions.Localization;
+
+\\ ...
+
+public class YourClass
+{
+
+    protected readonly IStringLocalizer Localizer;
+    
+    public YourClass(IStringLocalizer localizer)
+    {
+        Localizer = localizer;
+    }
+    
+    public string ShowWelcomeMessage()
+    {
+        return Localizer["Welcome {0}", Localizer["Mary"]];
+        
+        // Translations expected for:
+        // en-US: "Welcome Mary"
+        // pt-BR: "Bem-vinda Maria"   // Genre applied
+        // fr-FR: "Bienvenue Marie"   // Genre applied
+    }
+}
+
+```
+
+### Usage in Razor Pages:
+
+```
+@using Microsoft.Extensions.Localization
+
+@inject IStringLocalizer Localizer
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@Localizer["Welcome"]</h1>
+    <h1 class="display-4">@Localizer["Welcome {0}", Localizer["Mary"]]</h1>
+</div>
 
 ```
 
