@@ -1,6 +1,6 @@
 # Simple I18n
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT) [![NuGet](https://img.shields.io/nuget/v/SimpleI18n.svg)](https://nuget.org/packages/SimpleI18n)
 
 ## Introduction
 
