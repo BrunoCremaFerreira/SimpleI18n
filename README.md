@@ -85,7 +85,20 @@ en-US.json
 {
     "Welcome": "Welcome",
     "Welcome {0}": "Welcome {0}",
-    "Mary": "Mary"
+    "Mary": "Mary",
+    "Fork": "Fork",
+    "{0} example": 
+    {
+        "Zero": "no example",
+        "One": "{0} example",
+        "Other": "{0} examples"
+    },
+    "Animal": 
+    {
+        "Zero": "Animal",
+        "One": "Animal",
+        "Other": "Animals"
+    }
 }
 ```
 
@@ -96,7 +109,20 @@ pt-BR.json
     "Welcome" : "Bem-vindo",
     "Welcome {0}": "Bem-vindo {0}",
     "Welcome {0}{f}": "Bem-vinda {0}",
-    "Mary": "Maria[f]"
+    "Mary": "Maria[f]",
+    "Fork": "Garfo",
+    "{0} example": 
+    {
+        "Zero": "nenhum exemplo",
+        "One": "{0} exemplo",
+        "Other": "{0} exemplos"
+    },
+    "Animal": 
+    {
+        "Zero": "Animal",
+        "One": "Animal",
+        "Other": "Animais"
+    }
 }
 
 ```
@@ -108,7 +134,19 @@ fr-FR.json
     "Welcome" : "Bienvenue"
     "Welcome {0}": "Bienvenu {0}",
     "Welcome {0}{f}": "Bienvenue {0}",
-    "Mary": "Marie[f]"
+    "Mary": "Marie[f]",
+    "{0} example": 
+    {
+        "Zero": "pas d'exemple",
+        "One": "{0} exemple",
+        "Other": "{0} exemples"
+    },
+    "Animal": 
+    {
+        "Zero": "Animal",
+        "One": "Animal",
+        "Other": "Animaux"
+    }
 }
 
 ```
@@ -132,7 +170,7 @@ public class YourClass
         Localizer = localizer;
     }
     
-    public string ShowWelcomeMessage()
+    public string GetWelcomeMessage()
     {
         return Localizer["Welcome {0}", Localizer["Mary"]];
         
@@ -141,6 +179,43 @@ public class YourClass
         // pt-BR: "Bem-vinda Maria"   // Genre applied
         // fr-FR: "Bienvenue Marie"   // Genre applied
     }
+    
+    public string GetAnimals(int i)
+    {
+        return Localizer["Animal", i];
+        
+        // Translations expected for:
+        // en-US:   for i == 0: "Animal"
+        //          for i == 1: "Animal"
+        //          for i >  1: "Animals"
+        //            
+        // pt-BR:   for i == 0: "Animal"
+        //          for i == 1: "Animal"
+        //          for i >  1: "Animais"
+        //            
+        // fr-FR:   for i == 0: "Animal"
+        //          for i == 1: "Animal"
+        //          for i >  1: "Animaux"
+    }
+    
+    public string GetExample(int i)
+    {
+        return Localizer["{0} example", i];
+        
+        // Translations expected for:
+        // en-US:   for i == 0: "no example"
+        //          for i == 1: "1 example"
+        //          for i >  1: "i examples"
+        //            
+        // pt-BR:   for i == 0: "nenhum exemplo"
+        //          for i == 1: "1 exemplo"
+        //          for i >  1: "i exemplos"
+        //            
+        // fr-FR:   for i == 0: "pas d'exemple"
+        //          for i == 1: "1 exemple"
+        //          for i >  1: "i exemples"
+    }
+    
 }
 
 ```
