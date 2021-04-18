@@ -19,10 +19,10 @@ based on .NET 5 and above, including:
 
 ## Installation
 
-Beta version:
+Last version:
 
 ```
-    dotnet add package Simplei18n -v 1.0.4
+    dotnet add package Simplei18n -v 1.0.5
 ```
 
 ## Project Configuration
